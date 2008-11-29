@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="/plot/js/leto.js"></script>
+    <script src="/js/jquery.js"></script>
+<script>
+
+$(document).ready(function(){
+
+  $("#functionSubmit").click(function()
+   {
+    var url = "http://leto.net/rest/gsl.cgi/=/sf/" + $("select#function").val() + "/" + $("input#x").val();
+    
+    debug('getting ' + url );
+
+    $("input#y").val("");
+
+    $.ajax({
+        dataType: "json",
+        url: url, 
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if ( textStatus ) {
+                        debug( 'textStatus=' + textStatus );
+                    } else { 
+                        debug( 'errorThrown=' + errorThrown );     
+                    }
+                    this; // the options for this ajax request
+               },
+        success: function(json){
+                debug(' json.value = ' + json.value );
+                $("input#y").val( json.value );
+        }
+    });
+
+   return false;
+  })
+});
+
+</script>
+
+</head>
+<body>
+<div id="eval">
+    <b>y(x)</b>=
+    <select id="function">
+        <option value="Chi">Chi</option>
+        <option value="Ci">Ci</option>
+        <option value="Shi">Shi</option>
+        <option value="Si">Si</option>
+        <option value="airy_Ai">airy_Ai</option>
+        <option value="airy_Ai_deriv">airy_Ai_deriv</option>
+        <option value="airy_Ai_deriv_scaled">airy_Ai_deriv_scaled</option>
+        <option value="airy_Ai_scaled">airy_Ai_scaled</option>
+        <option value="airy_Bi">airy_Bi</option>
+        <option value="airy_Bi_deriv">airy_Bi_deriv</option>
+        <option value="airy_Bi_deriv_scaled">airy_Bi_deriv_scaled</option>
+        <option value="airy_Bi_scaled">airy_Bi_scaled</option>
+        <option value="airy_zero_Ai">airy_zero_Ai</option>
+        <option value="airy_zero_Ai_deriv">airy_zero_Ai_deriv</option>
+        <option value="airy_zero_Bi">airy_zero_Bi</option>
+        <option value="airy_zero_Bi_deriv">airy_zero_Bi_deriv</option>
+        <option value="angle_restrict_pos">angle_restrict_pos</option>
+        <option value="angle_restrict_symm">angle_restrict_symm</option>
+        <option value="atanint">atanint</option>
+        <option value="bessel_I0">bessel_I0</option>
+        <option value="bessel_I0_scaled">bessel_I0_scaled</option>
+        <option value="bessel_I1">bessel_I1</option>
+        <option value="bessel_I1_scaled">bessel_I1_scaled</option>
+        <option value="bessel_In">bessel_In</option>
+        <option value="bessel_In_scaled">bessel_In_scaled</option>
+        <option value="bessel_Inu">bessel_Inu</option>
+        <option value="bessel_Inu_scaled">bessel_Inu_scaled</option>
+        <option selected="selected" value="bessel_J0">bessel_J0</option>
+        <option value="bessel_J1">bessel_J1</option>
+        <option value="bessel_Jn">bessel_Jn</option>
+        <option value="bessel_Jnu">bessel_Jnu</option>
+        <option value="bessel_K0">bessel_K0</option>
+        <option value="bessel_K0_scaled">bessel_K0_scaled</option>
+        <option value="bessel_K1">bessel_K1</option>
+        <option value="bessel_K1_scaled">bessel_K1_scaled</option>
+        <option value="bessel_Kn">bessel_Kn</option>
+        <option value="bessel_Kn_scaled">bessel_Kn_scaled</option>
+        <option value="bessel_Knu">bessel_Knu</option>
+        <option value="bessel_Knu_scaled">bessel_Knu_scaled</option>
+        <option value="bessel_Y0">bessel_Y0</option>
+        <option value="bessel_Y1">bessel_Y1</option>
+        <option value="bessel_Yn">bessel_Yn</option>
+        <option value="bessel_Ynu">bessel_Ynu</option>
+        <option value="bessel_i0_scaled">bessel_i0_scaled</option>
+        <option value="bessel_i1_scaled">bessel_i1_scaled</option>
+        <option value="bessel_i2_scaled">bessel_i2_scaled</option>
+        <option value="bessel_il_scaled">bessel_il_scaled</option>
+        <option value="bessel_j0">bessel_j0</option>
+        <option value="bessel_j1">bessel_j1</option>
+        <option value="bessel_j2">bessel_j2</option>
+        <option value="bessel_jl">bessel_jl</option>
+        <option value="bessel_k0_scaled">bessel_k0_scaled</option>
+        <option value="bessel_k1_scaled">bessel_k1_scaled</option>
+        <option value="bessel_k2_scaled">bessel_k2_scaled</option>
+        <option value="bessel_kl_scaled">bessel_kl_scaled</option>
+        <option value="bessel_lnKnu">bessel_lnKnu</option>
+        <option value="bessel_y0">bessel_y0</option>
+        <option value="bessel_y1">bessel_y1</option>
+        <option value="bessel_y2">bessel_y2</option>
+        <option value="bessel_yl">bessel_yl</option>
+        <option value="bessel_zero_J0">bessel_zero_J0</option>
+        <option value="bessel_zero_J1">bessel_zero_J1</option>
+        <option value="bessel_zero_Jnu">bessel_zero_Jnu</option>
+        <option value="clausen">clausen</option>
+        <option value="conicalP_0">conicalP_0</option>
+        <option value="conicalP_1">conicalP_1</option>
+        <option value="conicalP_cyl_reg">conicalP_cyl_reg</option>
+        <option value="conicalP_half">conicalP_half</option>
+        <option value="conicalP_mhalf">conicalP_mhalf</option>
+        <option value="conicalP_sph_reg">conicalP_sph_reg</option>
+        <option value="cos">cos</option>
+        <option value="dawson">dawson</option>
+        <option value="debye_1">debye_1</option>
+        <option value="debye_2">debye_2</option>
+        <option value="debye_3">debye_3</option>
+        <option value="debye_4">debye_4</option>
+        <option value="debye_5">debye_5</option>
+        <option value="debye_6">debye_6</option>
+        <option value="dilog">dilog</option>
+        <option value="gamma">gamma</option>
+        <option value="gamma_inc">gamma_inc</option>
+        <option value="gamma_inc_P">gamma_inc_P</option>
+        <option value="gamma_inc_Q">gamma_inc_Q</option>
+        <option value="gammainv">gammainv</option>
+        <option value="gammastar">gammastar</option>
+        <option value="gegenpoly_1">gegenpoly_1</option>
+        <option value="gegenpoly_2">gegenpoly_2</option>
+        <option value="gegenpoly_3">gegenpoly_3</option>
+        <option value="gegenpoly_n">gegenpoly_n</option>
+        <option value="hazard">hazard</option>
+        <option value="hydrogenicR">hydrogenicR</option>
+        <option value="hydrogenicR_1">hydrogenicR_1</option>
+        <option value="hypot">hypot</option>
+        <option value="hzeta">hzeta</option>
+        <option value="lambert_W0">lambert_W0</option>
+        <option value="lambert_Wm1">lambert_Wm1</option>
+        <option value="legendre_H3d">legendre_H3d</option>
+        <option value="legendre_H3d_0">legendre_H3d_0</option>
+        <option value="legendre_H3d_1">legendre_H3d_1</option>
+        <option value="legendre_P1">legendre_P1</option>
+        <option value="legendre_P2">legendre_P2</option>
+        <option value="legendre_P3">legendre_P3</option>
+        <option value="legendre_Pl">legendre_Pl</option>
+        <option value="legendre_Plm">legendre_Plm</option>
+        <option value="legendre_Q0">legendre_Q0</option>
+        <option value="legendre_Q1">legendre_Q1</option>
+        <option value="legendre_Ql">legendre_Ql</option>
+        <option value="legendre_sphPlm">legendre_sphPlm</option>
+        <option value="lncosh">lncosh</option>
+        <option value="lngamma">lngamma</option>
+        <option value="lnpoch">lnpoch</option>
+        <option value="lnsinh">lnsinh</option>
+        <option value="log">log</option>
+        <option value="log_1plusx">log_1plusx</option>
+        <option value="log_1plusx_mx">log_1plusx_mx</option>
+        <option value="log_abs">log_abs</option>
+        <option value="poch">poch</option>
+        <option value="pochrel">pochrel</option>
+        <option value="psi">psi</option>
+        <option value="psi_1">psi_1</option>
+        <option value="psi_1_int">psi_1_int</option>
+        <option value="psi_1piy">psi_1piy</option>
+        <option value="psi_int">psi_int</option>
+        <option value="psi_n">psi_n</option>
+        <option value="rect_to_polar">rect_to_polar</option>
+        <option value="sin">sin</option>
+        <option value="sinc">sinc</option>
+        <option value="synchrotron_1">synchrotron_1</option>
+        <option value="synchrotron_2">synchrotron_2</option>
+        <option value="taylorcoeff">taylorcoeff</option>
+        <option value="transport_2">transport_2</option>
+        <option value="transport_3">transport_3</option>
+        <option value="transport_4">transport_4</option>
+        <option value="transport_5">transport_5</option>
+        <option value="zeta">zeta</option>
+        <option value="zeta_int">zeta_int</option>
+        <option value="zetam1">zetam1</option>
+        <option value="zetam1_int">zetam1_int</option>
+    </select> <b>( <input type="text" id="x" size="4"> ) </b> 
+    <input type="submit" id="functionSubmit" value="="> <input type="text" id="y" size="16"> 
+   
+</div>
+
+ </body>
+</html>

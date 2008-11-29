@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Plot your fancy</title>
+    <link href="layout.css" rel="stylesheet" type="text/css"></link>
+    <!--[if IE]><script language="javascript" type="text/javascript" src="/js/excanvas.pack.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="/js/jquery.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/jquery.flot-dev.js"> </script>
+ </head>
+    <body>
+    <h1>Leto.net Plot</h1>
+
+    <div style="float:left">
+      <div id="placeholder" style="width:500px;height:400px"></div>
+    </div>
+   
+    <div id="miniature" style="float:left;margin-left:20px;margin-top:50px">
+      <div id="overview" style="width:250px;height:200px"></div>
+
+      <p id="overviewLegend" style="margin-left:10px"></p>
+    </div>
+ <p id="hoverdata">Mouse hovers at
+    (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
+
+    <p><input id="enableTooltip" type="checkbox">Enable tooltip</p>
+<div id="plotme">
+<b>y(x)</b>=
+<input type="text" id="function" size=30>
+<input id="functionSubmit" type="submit" value="Plot!">
+</div>
+    <script id="source" src="js/leto.js" language="javascript" type="text/javascript"></script>
+    <script id="source" src="js/flotplot.js" language="javascript" type="text/javascript"></script>
+ </body>
+</html>
