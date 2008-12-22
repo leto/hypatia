@@ -1,8 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <head>
-        <title>Example of GSL REST API</title>
-    </head>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Plot your fancy</title>
+    <link href="css/layout.css" rel="stylesheet" type="text/css"></link>
+    <!--[if IE]><script language="javascript" type="text/javascript" src="/js/excanvas.pack.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="/js/leto.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/jquery.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/jquery.flot.js"> </script>
+    <style type="text/css">@import "/css/jquery.calculator.css";</style>
+    <script type="text/javascript" src="/js/jquery.calculator.js"></script>
+<script id="source" type="text/javascript" language="javascript">
+$( function() {
+    $('input#x').calculator({layout: $.calculator.scientificLayout,
+                    PI              : true,
+                    showOn          : 'both',
+                    buttonImageOnly : true,
+                    buttonImage     : 'img/calculator.png'});
+
+    $("#plotFunction").click(function() {
+    var url = "cgi/gsl.cgi/=/sf/" + $("select#function").val() + "/"
+              + $("input#lower").val()
+              + ':' + $("input#upper").val()
+              + ':' + "50";
+
+    debug('getting ' + url );
+    $.ajax({
+        dataType: "json",
+        url: url,
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if ( textStatus ) {
+                        debug( 'bad textStatus=' + textStatus );
+                    } else {
+                        debug( 'bad errorThrown=' + errorThrown );
+                    }
+                    this; // the options for this ajax request
+               },
+        success: function(json){
+                debug(' json.value = ' + json.value );
+                var point = json.points;
+                var start = json.start;
+                var end   = json.end;
+                var values = json.values;
+                $("input#y").val( json.values[0] );
+                $("#previousValues").prepend( '<li>' + $("select#function").val() + '(' + $("input#x").val() + ')' + ' = ' + $("input#y").val() + '</li>' );
+        }
+    });
+
+   return false;
+    });
+
+  $("#functionSubmit").click(function() {
+    var url = "cgi/gsl.cgi/=/sf/" + $("select#function").val() + "/" + $("input#x").val();
+
+    debug('getting ' + url );
+
+    $("input#y").val("");
+
+    $.ajax({
+        dataType: "json",
+        url: url, 
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if ( textStatus ) {
+                        debug('bad textstatus');
+                        debug( 'textStatus=' + textStatus );
+                    } else {
+                        debug('bad error');
+                        debug( 'errorThrown=' + errorThrown );
+                    }
+                    this; // the options for this ajax request
+               },
+        success: function(json){
+                debug(' json.value = ' + json.value );
+                $("input#y").val( json.value );
+                $("#previousValues").prepend( '<li>' + $("select#function").val() + '(' + $("input#x").val() + ')' + ' = ' + $("input#y").val() + '</li>' );
+        }
+    });
+
+   return false;
+  });
+    // setup plot
+    function getData(x1, x2) {
+        debug('getting data for ' + x1 + ' to ' + x2 );
+        var d = [];
+        var step = (x2 - x1)/300;
+        for (var i = x1; i < x2; i += step ) {
+            d.push([i, Math.sin( i*i )]);
+        }
+
+        return [
+            { label: "sin(x^2)", data: d }
+        ];
+    }
+
+    var options = {
+        crosshair: { mode: "xy", color: "#ff0000" },
+        legend: { show: true },
+        lines: { show: true  },
+        points: { show: false },
+        xaxis: { ticks: 4 },
+        yaxis: { ticks: 4, base:  0 },
+        selection: { mode: "xy" },
+        grid: { hoverable: true, clickable: true , color: "#999"}
+    };
+
+    var startData = getData( -2*Math.PI , 2*Math.PI );
+    debug( 'got startdata' );
+
+    debug('1');
+    var plot = $.plot($("#plot1"), startData, options);
+    debug('2');
+});
+
+</script>
+ </head>
 <body>
-    FOO
+<div id="all">
+        <div style="float:right">
+        <img src="img/hypatia_rounded.jpg">
+        </div>
+        <!-- <TMPL_VAR NAME=FOO> -->
+
+        <TMPL_INCLUDE NAME="plot.tmpl">
+
+        <div id="stuff">
+        <TMPL_INCLUDE NAME="gsl_sf_functions.tmpl">
+        <b>( <input type="text" id="x" size="14"> ) </b>
+            <input type="submit" id="functionSubmit" value="=">
+        <input type="text" id="y" size="14">
+        </div>
+
+        <div style="position:relative">
+            <ul><b>History </b>
+            <div id="previousValues">
+            </div>
+            </ul>
+        </div>
+</div>
 </body>
 </html>

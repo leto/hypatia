@@ -19,7 +19,7 @@ $(function () {
         xaxis: { ticks: 4 },
         yaxis: { ticks: 4, base:  0 },
         selection: { mode: "xy" },
-        grid: { hoverable: true, clickable: true , color: "#999"},
+        grid: { hoverable: true, clickable: true , color: "#999"}
     };
 
     var startData = getData( -2*Math.PI , 2*Math.PI );
