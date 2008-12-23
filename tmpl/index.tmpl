@@ -48,7 +48,6 @@ $( function() {
                    d.push( [ i, blah ] );
                    debug('pushing i=' + i + '=' + blah );
                 }
-                debug ('hello');
 
                 var options = {
                     crosshair: { mode: "xy", color: "#ff0000" },
@@ -62,7 +61,7 @@ $( function() {
                 };
                 debug('plotting');
 
-                $.plot($("#plot1"), [ { label : "stuff" , data : d }  ], options);
+                $.plot($("#plot1"), [ { label : $("select#function").val() , data : d }  ], options);
         }
     });
 
