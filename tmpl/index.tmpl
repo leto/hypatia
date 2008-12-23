@@ -92,18 +92,6 @@ $( function() {
    return false;
   });
     // setup plot
-    function sampleFunction(x1,x2,func) {
-        debug('sampling data for ' + x1 + ' to ' + x2 );
-        var d = [];
-        var step = (x2 - x1)/300;
-        for (var i = x1; i < x2; i += step ) {
-            d.push([i, func( i )]);
-        }
-
-        return [
-            { label: "sin(x^2)", data: d }
-        ];
-    }
 
     var options = {
         crosshair: { mode: "xy", color: "#ff0000" },
@@ -116,7 +104,7 @@ $( function() {
         grid: { hoverable: true, clickable: true , color: "#999"}
     };
 
-    var startData = sampleFunction( -2*Math.PI , 2*Math.PI, function (x) { return Math.sin(x*x) } );
+    var startData = sampleFunction( -2*Math.PI , 2*Math.PI, 300, function (x) { return Math.sin(x*x) }, 'sin(x^2)' );
     debug( 'got startdata' );
 
     var plot = $.plot($("#plot1"), startData, options);
