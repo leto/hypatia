@@ -15,7 +15,9 @@
 $( function() {
     $('input#x').calculator({layout: $.calculator.scientificLayout,
                     PI              : true,
-                    showOn          : 'both',
+                    showOn          : 'button',
+                    showAnim        : 'fadeIn',
+                    duration        : 'slow',
                     buttonImageOnly : true,
                     buttonImage     : 'img/calculator.png'});
 
@@ -44,9 +46,7 @@ $( function() {
                 debug('step='+step);
 
                 for ( var i = parseFloat(json.start); i < json.end; i += step ) {
-                   var blah = json.values.shift();
-                   d.push( [ i, blah ] );
-                   debug('pushing i=' + i + '=' + blah );
+                   d.push( [ i, json.values.shift() ] );
                 }
 
                 var options = {
@@ -120,6 +120,10 @@ $( function() {
     debug( 'got startdata' );
 
     var plot = $.plot($("#plot1"), startData, options);
+    $("a#clearHistory").click(function(){
+        $("#previousValues").html("");
+        return false;
+    });
 });
 
 </script>
@@ -141,7 +145,7 @@ $( function() {
         </div>
 
         <div style="position:relative">
-            <ul><b>History </b>
+            <ul><b>History </b><a id="clearHistory" href="">Clear</a>
             <div id="previousValues">
             </div>
             </ul>
