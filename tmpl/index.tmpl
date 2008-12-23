@@ -10,6 +10,7 @@
     <script language="javascript" type="text/javascript" src="/js/jquery.flot.js"> </script>
     <style type="text/css">@import "/css/jquery.calculator.css";</style>
     <script type="text/javascript" src="/js/jquery.calculator.js"></script>
+    <script type="text/javascript" src="js/hypatia.js"></script>
 <script id="source" type="text/javascript" language="javascript">
 $( function() {
     $('input#x').calculator({layout: $.calculator.scientificLayout,
@@ -18,32 +19,50 @@ $( function() {
                     buttonImageOnly : true,
                     buttonImage     : 'img/calculator.png'});
 
-    $("#plotFunction").click(function() {
+    $("input#plotFunction").click(function() {
     var url = "cgi/gsl.cgi/=/sf/" + $("select#function").val() + "/"
               + $("input#lower").val()
               + ':' + $("input#upper").val()
-              + ':' + "50";
+              + ':' + "100";
 
     debug('getting ' + url );
+
     $.ajax({
         dataType: "json",
         url: url,
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    if ( textStatus ) {
-                        debug( 'bad textStatus=' + textStatus );
-                    } else {
-                        debug( 'bad errorThrown=' + errorThrown );
-                    }
-                    this; // the options for this ajax request
-               },
+        error: ajaxError,
         success: function(json){
-                debug(' json.value = ' + json.value );
-                var point = json.points;
-                var start = json.start;
-                var end   = json.end;
-                var values = json.values;
                 $("input#y").val( json.values[0] );
-                $("#previousValues").prepend( '<li>' + $("select#function").val() + '(' + $("input#x").val() + ')' + ' = ' + $("input#y").val() + '</li>' );
+                $("#previousValues").prepend( '<li>' + $("select#function").val()
+                                                     + '(' + $("input#x").val() + ')'
+                                                     + ' = ' + $("input#y").val() + '</li>'
+                );
+                debug('converting data, start='+ json.start + ', end=' + json.end );
+
+                var d = [ ];
+                var step = parseFloat( (json.end - json.start)/json.points );
+                debug('step='+step);
+
+                for ( var i = parseFloat(json.start); i < json.end; i += step ) {
+                   var blah = json.values.shift();
+                   d.push( [ i, blah ] );
+                   debug('pushing i=' + i + '=' + blah );
+                }
+                debug ('hello');
+
+                var options = {
+                    crosshair: { mode: "xy", color: "#ff0000" },
+                    legend: { show: true },
+                    lines: { show: true  },
+                    points: { show: true },
+                    xaxis: { ticks: 5 },
+                    yaxis: { ticks: 5, base:  0 },
+                    selection: { mode: "xy" },
+                    grid: { hoverable: true, clickable: true , color: "#999"}
+                };
+                debug('plotting');
+
+                $.plot($("#plot1"), [ { label : "stuff" , data : d }  ], options);
         }
     });
 
@@ -59,33 +78,27 @@ $( function() {
 
     $.ajax({
         dataType: "json",
-        url: url, 
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    if ( textStatus ) {
-                        debug('bad textstatus');
-                        debug( 'textStatus=' + textStatus );
-                    } else {
-                        debug('bad error');
-                        debug( 'errorThrown=' + errorThrown );
-                    }
-                    this; // the options for this ajax request
-               },
+        url: url,
+        error: ajaxError,
         success: function(json){
-                debug(' json.value = ' + json.value );
+                //debug(' json.value = ' + json.value );
                 $("input#y").val( json.value );
-                $("#previousValues").prepend( '<li>' + $("select#function").val() + '(' + $("input#x").val() + ')' + ' = ' + $("input#y").val() + '</li>' );
+                $("#previousValues").prepend( '<li>' + $("select#function").val()
+                                                     + '(' + $("input#x").val() + ')'
+                                                     + ' = ' + $("input#y").val() + '</li>'
+                                            );
         }
     });
 
    return false;
   });
     // setup plot
-    function getData(x1, x2) {
-        debug('getting data for ' + x1 + ' to ' + x2 );
+    function sampleFunction(x1,x2,func) {
+        debug('sampling data for ' + x1 + ' to ' + x2 );
         var d = [];
         var step = (x2 - x1)/300;
         for (var i = x1; i < x2; i += step ) {
-            d.push([i, Math.sin( i*i )]);
+            d.push([i, func( i )]);
         }
 
         return [
@@ -104,12 +117,10 @@ $( function() {
         grid: { hoverable: true, clickable: true , color: "#999"}
     };
 
-    var startData = getData( -2*Math.PI , 2*Math.PI );
+    var startData = sampleFunction( -2*Math.PI , 2*Math.PI, function (x) { return Math.sin(x*x) } );
     debug( 'got startdata' );
 
-    debug('1');
     var plot = $.plot($("#plot1"), startData, options);
-    debug('2');
 });
 
 </script>

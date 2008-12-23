@@ -1,0 +1,16 @@
+<div id="hypatiaPlot">
+    <div id="plot1" style="width:400px;height:300px">
+    </div>
+    <div id="functionInput">
+        <b>y(x)</b>=
+        <TMPL_INCLUDE NAME="gsl_sf_functions.tmpl">
+        from <input type="text" id="lower" size="6" value="-5"> to
+        <input type="text" id="upper" value="5" size="6">
+        <input type="submit" id="plotFunction" value="Plot">
+        <!--
+        <a class="functionAdd">Add function</a>
+        <div id="functionCompare">
+        </div>
+        -->
+    </div>
+</div>

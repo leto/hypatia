@@ -145,6 +145,7 @@ eval {
 
     GET qr{^/=/sf/$function_regex/($num_nokeep):($num_nokeep):(\d+)$} => sub {
         my ($function, $start, $end, $points) = ($1, $2, $3, $4);
+        #warn Dumper [ $function, $start, $end, $points ];
         unless ( $start < $end ) {
             spew 503, 'Start must be less than end';
         }
@@ -152,7 +153,9 @@ eval {
             spew 503, "Please specify between 1 and $MAX_POINTS points";
         }
         if ( is_valid($function) ) {
-            my @linspace = map { $start + $_/$points } (1 .. $points);
+            my $step     = ($end-$start)/$points;
+            my @linspace = map { $start + $_*$step } (1 .. $points);
+            #warn Dumper [ 'linspace=', @linspace ];
             my @values   = map { get_value($function, $_) } @linspace;
             print as_json($q, {
                     'values' => \@values,
