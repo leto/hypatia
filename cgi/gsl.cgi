@@ -1,4 +1,4 @@
-#!/usr/bin/env perl5.10
+#!/usr/bin/perl -w
 # Read-only RESTful API to GSL Special Functions
 # Jonathan "Duke" Leto  <jonathan@leto.net> - Nov 2008
 use strict;
