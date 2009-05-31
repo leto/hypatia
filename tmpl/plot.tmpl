@@ -1,16 +1,21 @@
 <div id="hypatiaPlot" style="">
- <p><input id="enableTooltip" type="checkbox">Enable tooltip</p>
- <p id="hoverdata">Mouse hovers at
-    (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
     <div id="plot1" style="width:500px;height:400px">
+      <p id="plotLegend" style="margin-left:10px"></p>
     </div>
     <div id="functionInput">
         <b>y(x)</b>=
         <TMPL_INCLUDE NAME="gsl_sf_functions.tmpl">
-        from <input type="text" id="lower" size="6" value="-5"> to
-        <input type="text" id="upper" value="5" size="6">
+        from <input type="text" id="lower" size="6" value="-20"> to
+        <input type="text" id="upper" value="20" size="6">
+    </div>
+    <div id="pushme" style="float:right">
         <input type="submit" id="plotFunction" value="Plot">
     </div>
+ <p><input id="enableTooltip" type="checkbox" checked>Enable Tooltip</p>
+ <p><input id="togglePoints" type="checkbox" >Show Points</p>
+ <p><input id="resetZoom" type="button" value="Reset Zoom"></p>
+ <p id="hoverdata">Current position (x,y)=
+    (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
 
 
 </div>
