@@ -13,22 +13,34 @@
     <script type="text/javascript" src="js/hypatia.js"></script>
     <script type="text/javascript" src="js/hypatia_plot.js"></script>
 <body bgcolor="white">
-<table border="0" width="100%">
+<table border="1" width="100%">
 <tr>
-<td width="15%"> </td>
+
+<td width="250px">
+
+  <div id="miniature" style="float:right;margin-right:10px;margin-top:0px">
+      <div id="overview" style="width:250px;height:200px"></div>
+
+      <p id="overviewLegend" style="margin-left:10px"></p>
+    </div>
+
+
+ </td>
 <td>
 <div id="all">
         <div id="container" >
-            <div id="hypatia_logo">
-            <img src="img/hypatia_rounded.jpg">
-            </div>
 
             <TMPL_INCLUDE NAME="plot.tmpl">
 
         </div>
 </div>
 </td>
-<td width="15%"> </td>
+<td width="152px">
+    <div id="hypatia_logo">
+    <img src="img/hypatia_rounded.jpg">
+    </div>
+
+ </td>
 </tr>
 </table>
 </body>
