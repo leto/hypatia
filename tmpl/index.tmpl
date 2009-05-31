@@ -4,16 +4,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Plot your fancy</title>
     <link href="css/layout.css" rel="stylesheet" type="text/css"></link>
-    <link type="text/css" href="/css/smoothness/jquery-ui-1.7.1.custom.css" rel="Stylesheet" />   
+<link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+
+
     <style type="text/css">@import "/css/jquery.calculator.css";</style>
 
     <!--[if IE]><script language="javascript" type="text/javascript" src="/js/excanvas.pack.js"></script><![endif]-->
     <script language="javascript" type="text/javascript" src="js/leto.js"> </script>
 <!-- 
-    <script language="javascript" type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"> </script>
+    <link type="text/css" href="/css/smoothness/jquery-ui-1.7.1.custom.css" rel="Stylesheet" />   
+  <script language="javascript" type="text/javascript" src="/js/jquery.js"> </script>
     <script type="text/javascript" src="/js/jquery-ui-1.7.1.custom.min.js"></script>
 -->
-  <script language="javascript" type="text/javascript" src="/js/jquery.js"> </script>
+    <script language="javascript" type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"> </script>
+ <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
+  <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.tabs.js"></script>
+
     <script language="javascript" type="text/javascript" src="/js/jquery.flot.js"> </script>
     <script type="text/javascript" src="js/jquery.calculator.js"></script>
     <script type="text/javascript" src="js/hypatia.js"></script>
@@ -32,11 +38,23 @@ Overview
 
 
  </td>
-<td>
+<td rowspan="2">
 <div id="all">
         <div id="container" >
-
+    <ul>
+        <li><a href="#tab-1"><span>Plot</span></a></li>
+        <li><a href="#tab-2"><span>Help</span></a></li>
+        <li><a href="#tab-3"><span>About</span></a></li>
+    </ul>
+    <div id="tab-1" style="height:400px">
             <TMPL_INCLUDE NAME="plot.tmpl">
+    </div>
+    <div id="tab-2">
+    Click and drag on the plot to zoom.
+    </div>
+    <div id="tab-3">
+    Hypatia is a JavaScript Computer Algebra System.
+    </div>
 
         </div>
 </div>

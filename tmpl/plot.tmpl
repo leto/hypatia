@@ -1,12 +1,14 @@
-<div id="hypatiaPlot" style="">
+<div id="hypatiaPlot" style="margin-top:50px">
     <div id="plot1" style="width:500px;height:400px">
       <p id="plotLegend" style="margin-left:10px"></p>
     </div>
     <div id="functionInput">
         <b>y(x)</b>=
         <TMPL_INCLUDE NAME="gsl_sf_functions.tmpl">
+        <p>
         from <input type="text" id="lower" size="6" value="-20"> to
-        <input type="text" id="upper" value="20" size="6">
+        <input type="text" id="upper" value="20" size="6">  
+        </p>
     </div>
     <div id="pushme" style="float:right">
         <input type="submit" id="plotFunction" value="Plot">
