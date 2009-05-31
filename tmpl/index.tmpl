@@ -11,183 +11,25 @@
     <style type="text/css">@import "/css/jquery.calculator.css";</style>
     <script type="text/javascript" src="js/jquery.calculator.js"></script>
     <script type="text/javascript" src="js/hypatia.js"></script>
-<script id="source" type="text/javascript" language="javascript">
-$( function() {
-
- function showTooltip(x, y, contents) {
-        $('<div id="tooltip">' + contents + '</div>').css( {
-            position: 'absolute',
-            display: 'none',
-            top: y + 5,
-            left: x + 5,
-            border: '1px solid #fdd',
-            padding: '2px',
-            'background-color': '#fee',
-            opacity: 0.80
-        }).appendTo("body").fadeIn(200);
-    }
-    var previousPoint = null;
-
-    $("#plot1").bind("plothover", function (event, pos, item) {
-            $("#x").text(pos.x.toFixed(2));
-            $("#y").text(pos.y.toFixed(2));
-
-            if ($("#enableTooltip:checked").length > 0) {
-                if (item) {
-                    if (previousPoint != item.datapoint) {
-                        previousPoint = item.datapoint;
-                        
-                        $("#tooltip").remove();
-                        var x = item.datapoint[0].toFixed(2),
-                            y = parseFloat(item.datapoint[1]).toFixed(2);
-                        
-                        showTooltip(item.pageX, item.pageY,
-                                    item.series.label + " of " + x + " = " + y);
-                    }
-                }
-                else {
-                    $("#tooltip").remove();
-                    previousPoint = null;            
-                }
-            }
-        });
-
- $("#plot1").bind("plotclick", function (event, pos, item) {
-        if (item) {
-            $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
-            plot.highlight(item.series, item.datapoint);
-        }
-    });
-
-
-    $('input#x').calculator({layout: $.calculator.scientificLayout,
-                    PI              : true,
-                    showOn          : 'button',
-                    showAnim        : 'fadeIn',
-                    duration        : 'slow',
-                    buttonImageOnly : true,
-                    buttonImage     : 'img/calculator.png'});
-
-    $("input#plotFunction").click(function() {
-    var url = "cgi/gsl.cgi/=/sf/" + $("select#function").val() + "/"
-              + $("input#lower").val()
-              + ':' + $("input#upper").val()
-              + ':' + "100";
-
-    debug('getting ' + url );
-
-    $.ajax({
-        dataType: "json",
-        url: url,
-        error: ajaxError,
-        success: function(json){
-                $("input#y").val( json.values[0] );
-                $("#previousValues").prepend( '<li>' + $("select#function").val()
-                                                     + '(' + $("input#x").val() + ')'
-                                                     + ' = ' + $("input#y").val() + '</li>'
-                );
-                debug('converting data, start='+ json.start + ', end=' + json.end );
-
-                var d = [ ];
-                var step = parseFloat( (json.end - json.start)/json.points );
-                debug('step='+step);
-
-                for ( var i = parseFloat(json.start); i < json.end; i += step ) {
-                   d.push( [ i, json.values.shift() ] );
-                }
-
-                var options = {
-                    crosshair: { mode: "xy", color: "#ff0000" },
-                    legend: { show: true },
-                    lines: { show: true  },
-                    points: { show: true },
-                    xaxis: { ticks: 5 },
-                    yaxis: { ticks: 5, base:  0 },
-                    selection: { mode: "xy" },
-                    grid: { hoverable: true, clickable: true , color: "#999"}
-                };
-                debug('plotting');
-
-                $.plot($("#plot1"), [ { label : $("select#function").val() , data : d }  ], options);
-        }
-    });
-
-
-
-
-   return false;
-    });
-
-  $("#functionSubmit").click(function() {
-    var url = "cgi/gsl.cgi/=/sf/" + $("select#function").val() + "/" + $("input#x").val();
-
-    debug('getting ' + url );
-
-    $("input#y").val("");
-
-    $.ajax({
-        dataType: "json",
-        url: url,
-        error: ajaxError,
-        success: function(json){
-                //debug(' json.value = ' + json.value );
-                $("input#y").val( json.value );
-                $("#previousValues").prepend( '<li>' + $("select#function").val()
-                                                     + '(' + $("input#x").val() + ')'
-                                                     + ' = ' + $("input#y").val() + '</li>'
-                                            );
-        }
-    });
-
-   return false;
-  });
-    // setup plot
-
-    var options = {
-        crosshair: { mode: "xy", color: "#ff0000" },
-        legend: { show: true },
-        lines: { show: true  },
-        points: { show: false },
-        xaxis: { ticks: 4 },
-        yaxis: { ticks: 4, base:  0 },
-        selection: { mode: "xy" },
-        grid: { hoverable: true, clickable: true , color: "#999"}
-    };
-
-    var startData = sampleFunction( -2*Math.PI , 2*Math.PI, 300, function (x) { return Math.sin(x*x) }, 'sin(x^2)' );
-    debug( 'got startdata' );
-
-    var plot = $.plot($("#plot1"), startData, options);
-    $("a#clearHistory").click(function(){
-        $("#previousValues").html("");
-        return false;
-    });
-});
-
-</script>
- </head>
-<body>
+    <script type="text/javascript" src="js/hypatia_plot.js"></script>
+<body bgcolor="white">
+<table border="0" width="100%">
+<tr>
+<td width="15%"> </td>
+<td>
 <div id="all">
-        <div style="float:right">
-        <img src="img/hypatia_rounded.jpg">
-        </div>
-        <!-- <TMPL_VAR NAME=FOO> -->
-
-        <TMPL_INCLUDE NAME="plot.tmpl">
-
-        <div id="stuff">
-        <TMPL_INCLUDE NAME="gsl_sf_functions.tmpl">
-        <b>( <input type="text" id="x" size="14"> ) </b>
-            <input type="submit" id="functionSubmit" value="=">
-        <input type="text" id="y" size="14">
-        </div>
-
-        <div style="position:relative">
-            <ul><b>History </b><a id="clearHistory" href="">Clear</a>
-            <div id="previousValues">
+        <div id="container" >
+            <div id="hypatia_logo">
+            <img src="img/hypatia_rounded.jpg">
             </div>
-            </ul>
+
+            <TMPL_INCLUDE NAME="plot.tmpl">
+
         </div>
 </div>
+</td>
+<td width="15%"> </td>
+</tr>
+</table>
 </body>
 </html>

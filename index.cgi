@@ -12,7 +12,7 @@ my $tmpl_dir  = 'tmpl/';
 my $index_tmpl = HTML::Template->new(filename => "$tmpl_dir/index.tmpl");
 
 # fill in some parameters
-$index_tmpl->param( FOO => 42 );
+# $index_tmpl->param( FOO => 42 );
 
 print $q->header(-status => 200, -type => 'text/html');
 print $index_tmpl->output;
