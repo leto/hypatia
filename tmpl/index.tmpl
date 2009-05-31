@@ -2,7 +2,7 @@
 <html>
  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Plot your fancy</title>
+    <title>Hypatia</title>
     <link href="css/layout.css" rel="stylesheet" type="text/css"></link>
 <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
 
@@ -43,19 +43,32 @@ Overview
         <div id="container" >
     <ul>
         <li><a href="#tab-1"><span>Plot</span></a></li>
-        <li><a href="#tab-2"><span>Help</span></a></li>
-        <li><a href="#tab-3"><span>About</span></a></li>
+        <li><a href="#tab-2"><span>Solve</span></a></li>
+        <li><a href="#tab-3"><span>Help</span></a></li>
+        <li><a href="#tab-4"><span>About</span></a></li>
     </ul>
     <div id="tab-1" style="height:400px">
             <TMPL_INCLUDE NAME="plot.tmpl">
     </div>
-    <div id="tab-2">
+    <div id="tab-3">
     Click and drag on the plot to zoom.
     </div>
-    <div id="tab-3">
+    <div id="tab-2">
+    Coming soon...
+    </div>
+    <div id="tab-4">
     Hypatia is a JavaScript Computer Algebra System.
     <p>
-    It use jQuery, jQuery UI, the calculator jQuery plugin and Flot for graphing.
+    The frontend (what you see) uses <a href="http://www.jquery.com">jQuery</a>, jQuery UI, the calculator jQuery plugin and 
+    <a href="http://code.google.com/p/flot/">Flot</a> for graphing.
+    Hypatia uses AJAX and JSON to talk to gateways that do the actual computing. The gateways can be written
+    in any language, all Hypatia cares about is that they give back JSON.
+    </p>
+    <p>
+    Currently there is a gateway written in Perl that uses <a href="http://search.cpan.org/dist/Math-GSL/">Math::GSL</a> to graph some of the 
+    <a href="http://www.gnu.org/software/gsl/manual/html_node/Special-Functions.html">Special Functions</a>
+    in the <a href="http://www.gnu.org/software/gsl/">GNU Scientific Library</a>.
+    </p>
     </div>
 
         </div>
