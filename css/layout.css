@@ -6,6 +6,7 @@ body {
 
 #container {
  position:relative;
+ height:600px;
 }
 #hypatia_logo {
  position:relative;
